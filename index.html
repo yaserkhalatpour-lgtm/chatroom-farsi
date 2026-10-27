@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#101827">
+    <meta name="description" content="گپ فارسی؛ محیطی برای گفت‌وگو، دوستی، یادگیری و سرگرمی.">
+    <title>گپ فارسی | چت‌روم رایگان</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        :root {
+            --bg: #0b1120;
+            --panel: #151f32;
+            --panel2: #202d43;
+            --border: #2b3b55;
+            --text: #f1f5f9;
+            --muted: #a6b4c8;
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --green: #22c55e;
+            --red: #f87171;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            color: var(--text);
+            background:
+                radial-gradient(ellipse at top, #172554 0%, transparent 55%),
+                var(--bg);
+            font-family: Tahoma, Arial, sans-serif;
+            line-height: 1.8;
+        }
+
+        button, input, textarea {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .container {
+            width: min(1100px, 94%);
+            margin: auto;
+        }
+
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255,255,255,.08);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            display: grid;
+            place-items: center;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #818cf8, #4f46e5);
+            font-size: 25px;
+        }
+
+        .logo h1 {
+            margin: 0;
+            font-size: 22px;
+        }
+
+        .logo p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .status-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #f59e0b;
+        }
+
+        .status-dot.online {
+            background: var(--green);
+        }
+
+        .status-dot.offline {
+            background: var(--red);
+        }
+
+        main {
+            padding: 30px 0 50px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 20px 8px 35px;
+        }
+
+        .hero h2 {
+            margin: 0 0 12px;
+            font-size: clamp(26px, 5vw, 40px);
+        }
+
+        .hero h2 span {
+            color: #818cf8;
+        }
+
+        .hero p {
+            max-width: 650px;
+            margin: auto;
+            color: var(--muted);
+        }
+
+        .card {
+            padding: 24px;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            background: rgba(21,31,50,.96);
+            box-shadow: 0 20px 55px rgba(0,0,0,.18);
+        }
+
+        .section-title {
+            margin: 0 0 6px;
+            font-size: 20px;
+        }
+
+        .section-description {
+            margin: 0 0 20px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .login-form {
+            display: flex;
+            gap: 12px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 12px 14px;
+            color: var(--text);
+            background: #0d1627;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            outline: none;
+        }
+
+        input:focus, textarea:focus {
+            border-color: #818cf8;
+            box-shadow: 0 0 0 3px rgba(99,102,241,.12);
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: #7f8da4;
+        }
+
+        .btn {
+            padding: 12px 20px;
+            color: white;
+            background: var(--primary);
+            border: 0;
+            border-radius: 12px;
+            font-weight: bold;
+            white-space: nowrap;
+            transition: .2s;
+        }
+
+        .btn:hover {
+            background: var(--primary-hover);
+        }
+
+        .btn:disabled {
+            opacity: .55;
+            cursor: not-allowed;
+        }
+
+        .rooms-section {
+            margin-top: 25px;
+        }
+
+        .rooms {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 14px;
+        }
+
+        .room-button {
+            padding: 18px 10px;
+            text-align: center;
+            color: var(--text);
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            transition: .2s;
+        }
+
+        .room-button:hover {
+            border-color: #818cf8;
+        }
+
+        .room-button.active {
+            background: rgba(99,102,241,.17);
+            border-color: #818cf8;
+        }
+
+        .room-icon {
+            display: block;
+            margin-bottom: 7px;
+            font-size: 28px;
+        }
+
+        .room-name {
+            display: block;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .room-desc {
+            display: block;
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .chat-section {
+            display: none;
+            margin-top: 25px;
+        }
+
+        .chat-section.visible {
+            display: block;
+        }
+
+        .chat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .chat-heading {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .chat-heading h3 {
+            margin: 0;
+            font-size: 19px;
+        }
+
+        .chat-heading p {
+            margin: 2px 0 0;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .user-badge {
+            padding: 6px 11px;
+            color: #c7d2fe;
+            background: var(--panel2);
+            border-radius: 10px;
+            font-size: 12px;
+        }
+
+        .messages {
+            display: flex;
+            flex-direction: column;
+            gap: 13px;
+            height: 390px;
+            overflow-y: auto;
+            padding: 18px 3px;
+            scroll-behavior: smooth;
+        }
+
+        .message {
+            max-width: 85%;
+            align-self: flex-start;
+            padding: 10px 13px;
+            overflow-wrap: anywhere;
+            background: var(--panel2);
+            border: 1px solid var(--border);
+            border-radius: 5px 15px 15px 15px;
+        }
+
+        .message.mine {
+            align-self: flex-end;
+            background: #3730a3;
+            border-color: #4f46e5;
+            border-radius: 15px 5px 15px 15px;
+        }
+
+        .message-meta {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .message-user {
+            color: #c7d2fe;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .message-time {
+            color: #9baac0;
+            font-size: 10px;
+        }
+
+        .message-text {
+            font-size: 14px;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+        }
+
+        .empty-state {
+            margin: auto;
+            padding: 30px 10px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .empty-icon {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 38px;
+        }
+
+        .chat-footer {
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        .message-form {
+            display: flex;
+            align-items: flex-end;
+            gap: 10px;
+        }
+
+        .message-form textarea {
+            min-height: 48px;
+            max-height: 130px;
+            resize: vertical;
+        }
+
+        .message-form .btn {
+            min-height: 48px;
+        }
+
+        .input-hint {
+            margin: 8px 2px 0;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .notice {
+            display: none;
+            margin-top: 14px;
+            padding: 12px 14px;
+            border-radius: 12px;
+            font-size: 13px;
+            overflow-wrap: anywhere;
+        }
+
+        .notice.show {
+            display: block;
+        }
+
+        .notice.error {
+            color: #fecaca;
+            background: rgba(127,29,29,.25);
+            border: 1px solid rgba(248,113,113,.3);
+        }
+
+        .notice.success {
+            color: #bbf7d0;
+            background: rgba(20,83,45,.25);
+            border: 1px solid rgba(34,197,94,.3);
+        }
+
+        .notice.info {
+            color: #bfdbfe;
+            background: rgba(30,64,175,.2);
+            border: 1px solid rgba(96,165,250,.3);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+            margin-top: 25px;
+        }
+
+        .feature {
+            padding: 20px;
+            background: rgba(21,31,50,.7);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+        }
+
+        .feature-icon {
+            font-size: 25px;
+        }
+
+        .feature h3 {
+            margin: 7px 0 5px;
+            font-size: 15px;
+        }
+
+        .feature p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        footer {
+            padding: 22px 0;
+            text-align: center;
+            color: var(--muted);
+            border-top: 1px solid rgba(255,255,255,.08);
+            font-size: 12px;
+        }
+
+        @media (max-width: 700px) {
+            .rooms {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .card {
+                padding: 17px;
+            }
+
+            .login-form {
+                flex-direction: column;
+            }
+
+            .login-form .btn {
+                width: 100%;
+            }
+
+            .messages {
+                height: 340px;
+            }
+
+            .message {
+                max-width: 94%;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .message-form {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .message-form .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="container header-content">
+        <div class="logo">
+            <div class="logo-icon">💬</div>
+            <div>
+                <h1>گپ فارسی</h1>
+                <p>جایی برای گفت‌وگو و دوستی</p>
+            </div>
+        </div>
+
+        <div class="status">
+            <span class="status-dot" id="connectionDot"></span>
+            <span id="connectionText">در حال اتصال...</span>
+        </div>
+    </div>
+</header>
+
+<main class="container">
+
+    <section class="hero">
+        <h2>به دنیای <span>گپ فارسی</span> خوش آمدی!</h2>
+        <p>
+            گفت‌وگو کن، دوستان جدید پیدا کن، دانسته‌هایت را به اشتراک بگذار
+            و از صحبت کردن لذت ببر.
+        </p>
+    </section>
+
+    <section class="card" id="loginSection">
+        <h2 class="section-title">👋 ورود به گپ فارسی</h2>
+        <p class="section-description">
+            یک نام مستعار انتخاب کن و وارد اتاق‌های گفت‌وگو شو.
+        </p>
+
+        <form class="login-form" id="loginForm">
+            <input
+                type="text"
+                id="usernameInput"
+                maxlength="30"
+                placeholder="نام مستعار خود را وارد کن..."
+                autocomplete="nickname"
+                required
+            >
+            <button class="btn" type="submit">ورود به گفت‌وگو</button>
+        </form>
+
+        <div class="notice" id="loginNotice" role="status"></div>
+    </section>
+
+    <section class="rooms-section">
+        <h2 class="section-title">🏠 اتاق‌های گفت‌وگو</h2>
+        <p class="section-description">اتاق موردعلاقه‌ات را انتخاب کن.</p>
+
+        <div class="rooms">
+            <button class="room-button active" data-room="عمومی" type="button">
+                <span class="room-icon">🌍</span>
+                <span class="room-name">گپ عمومی</span>
+                <span class="room-desc">گفت‌وگوی آزاد</span>
+            </button>
+
+            <button class="room-button" data-room="دوستانه" type="button">
+                <span class="room-icon">🤝</span>
+                <span class="room-name">گپ دوستانه</span>
+                <span class="room-desc">آشنایی و دوستی</span>
+            </button>
+
+            <button class="room-button" data-room="علمی" type="button">
+                <span class="room-icon">📚</span>
+                <span class="room-name">گپ علمی</span>
+                <span class="room-desc">علم و یادگیری</span>
+            </button>
+
+            <button class="room-button" data-room="سرگرمی" type="button">
+                <span class="room-icon">🎮</span>
+                <span class="room-name">گپ سرگرمی</span>
+                <span class="room-desc">تفریح و سرگرمی</span>
+            </button>
+        </div>
+    </section>
+
+    <section class="card chat-section" id="chatSection">
+        <div class="chat-header">
+            <div class="chat-heading">
+                <div class="logo-icon" id="currentRoomIcon">🌍</div>
+                <div>
+                    <h3 id="currentRoomTitle">گپ عمومی</h3>
+                    <p>پیام‌های کاربران این اتاق</p>
+                </div>
+            </div>
+
+            <div class="user-badge">
+                👤 <span id="currentUsername">کاربر</span>
+            </div>
+        </div>
+
+        <div class="messages" id="messages" aria-live="polite">
+            <div class="empty-state">
+                <span class="empty-icon">💬</span>
+                در حال دریافت پیام‌ها...
+            </div>
+        </div>
+
+        <div class="chat-footer">
+            <form class="message-form" id="messageForm">
+                <textarea
+                    id="messageInput"
+                    maxlength="2000"
+                    placeholder="پیامت را بنویس..."
+                    aria-label="متن پیام"
+                    required
+                ></textarea>
+
+                <button class="btn" type="submit" id="sendButton">
+                    ارسال پیام ➤
+                </button>
+            </form>
+
+            <p class="input-hint">
+                برای ارسال سریع Enter را بزن؛ برای رفتن به خط بعد
+                از Shift + Enter استفاده کن.
+            </p>
+
+            <div class="notice" id="chatNotice" role="status"></div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="feature">
+            <span class="feature-icon">⚡</span>
+            <h3>گفت‌وگوی زنده</h3>
+            <p>پیام‌ها با اتصال زنده به پایگاه داده دریافت می‌شوند.</p>
+        </div>
+
+        <div class="feature">
+            <span class="feature-icon">🌐</span>
+            <h3>از هر دستگاه</h3>
+            <p>با گوشی یا رایانه وارد سایت شو و گفت‌وگو کن.</p>
+        </div>
+
+        <div class="feature">
+            <span class="feature-icon">💜</span>
+            <h3>ساده و رایگان</h3>
+            <p>بدون نصب برنامه از اتاق‌های گفت‌وگو استفاده کن.</p>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <div class="container">
+        گپ فارسی © ۲۰۲۶ | گفت‌وگو، دوستی و یادگیری
+    </div>
+</footer>
+
+<script>
+"use strict";
+
+/* تنظیمات پروژه Supabase */
+const SUPABASE_URL =
+    "https://fhorywjfivaemathejeq.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY =
+    "sb_publishable_wIM3lIEigV7J7D06-YsXAA_jM6sBknY";
+
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY,
+    {
+        realtime: {
+            params: {
+                eventsPerSecond: 10
+            }
+        }
+    }
+);
+
+/* اتاق‌های مجاز */
+const ROOMS = {
+    "عمومی": { icon: "🌍", title: "گپ عمومی" },
+    "دوستانه": { icon: "🤝", title: "گپ دوستانه" },
+    "علمی": { icon: "📚", title: "گپ علمی" },
+    "سرگرمی": { icon: "🎮", title: "گپ سرگرمی" }
+};
+
+/* وضعیت برنامه */
+let username = localStorage.getItem("gap_farsi_username") || "";
+let currentRoom = "عمومی";
+
+let realtimeChannel = null;
+let reconnectTimer = null;
+let reconnectAttempts = 0;
+let isSending = false;
+let isLoadingMessages = false;
+let loadVersion = 0;
+let lastRealtimeStatus = "";
+
+/* عناصر صفحه */
+const loginSection = document.getElementById("loginSection");
+const loginForm = document.getElementById("loginForm");
+const usernameInput = document.getElementById("usernameInput");
+const loginNotice = document.getElementById("loginNotice");
+
+const chatSection = document.getElementById("chatSection");
+const messagesContainer = document.getElementById("messages");
+const messageForm = document.getElementById("messageForm");
+const messageInput = document.getElementById("messageInput");
+const sendButton = document.getElementById("sendButton");
+const chatNotice = document.getElementById("chatNotice");
+
+const connectionDot = document.getElementById("connectionDot");
+const connectionText = document.getElementById("connectionText");
+
+/* نمایش پیام وضعیت */
+function showNotice(element, message, type = "info") {
+    element.textContent = message;
+    element.className = "notice show " + type;
+}
+
+function hideNotice(element) {
+    element.textContent = "";
+    element.className = "notice";
+}
+
+/* وضعیت اتصال */
+function setConnectionStatus(state, message) {
+    connectionDot.classList.remove("online", "offline");
+
+    if (state === "online") {
+        connectionDot.classList.add("online");
+    } else if (state === "offline") {
+        connectionDot.classList.add("offline");
+    }
+
+    connectionText.textContent = message;
+}
+
+/* زمان پیام */
+function formatTime(value) {
+    const date = new Date(value);
+
+    if (Number.isNaN(date.getTime())) {
+        return "";
+    }
+
+    return new Intl.DateTimeFormat("fa-IR", {
+        hour: "2-digit",
+        minute: "2-digit"
+    }).format(date);
+}
+
+/* نمایش وضعیت خالی */
+function clearMessages(message) {
+    messagesContainer.replaceChildren();
+
+    const empty = document.createElement("div");
+    empty.className = "empty-state";
+
+    const icon = document.createElement("span");
+    icon.className = "empty-icon";
+    icon.textContent = "💬";
+
+    const text = document.createElement("span");
+    text.textContent = message;
+
+    empty.append(icon, text);
+    messagesContainer.appendChild(empty);
+}
+
+/* جلوگیری از نمایش تکراری پیام */
+function messageAlreadyDisplayed(id) {
+    return Array.from(
+        messagesContainer.querySelectorAll(".message")
+    ).some(element => element.dataset.messageId === String(id));
+}
+
+/* ساخت و نمایش پیام */
+function renderMessage(message) {
+    if (!message || message.id == null) {
+        return;
+    }
+
+    if (message.room !== currentRoom) {
+        return;
+    }
+
+    if (messageAlreadyDisplayed(message.id)) {
+        return;
+    }
+
+    const empty = messagesContainer.querySelector(".empty-state");
+
+    if (empty) {
+        empty.remove();
+    }
+
+    const item = document.createElement("article");
+    item.className = "message";
+    item.dataset.messageId = String(message.id);
+
+    if (message.username === username) {
+        item.classList.add("mine");
+    }
+
+    const meta = document.createElement("div");
+    meta.className = "message-meta";
+
+    const user = document.createElement("span");
+    user.className = "message-user";
+    user.textContent = message.username || "کاربر";
+
+    const time = document.createElement("time");
+    time.className = "message-time";
+    time.textContent = formatTime(message.created_at);
+
+    const content = document.createElement("div");
+    content.className = "message-text";
+    content.textContent = message.content || "";
+
+    meta.append(user, time);
+    item.append(meta, content);
+
+    messagesContainer.appendChild(item);
+
+    while (messagesContainer.querySelectorAll(".message").length > 100) {
+        const firstMessage = messagesContainer.querySelector(".message");
+
+        if (firstMessage) {
+            firstMessage.remove();
+        }
+    }
+
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+/* دریافت پیام‌های ذخیره‌شده */
+async function loadMessages() {
+    const thisLoad = ++loadVersion;
+
+    clearMessages("در حال دریافت پیام‌ها...");
+
+    const { data, error } = await supabaseClient
+        .from("messages")
+        .select("id, username, room, content, created_at")
+        .eq("room", currentRoom)
+        .order("created_at", { ascending: false })
+        .limit(100);
+
+    if (thisLoad !== loadVersion) {
+        return;
+    }
+
+    if (error) {
+        console.error("خطای دریافت پیام‌ها:", error);
+
+        clearMessages("دریافت پیام‌ها ناموفق بود.");
+
+        showNotice(
+            chatNotice,
+            "خطای دریافت پیام‌ها: " + error.message,
+            "error"
+        );
+
+        return;
+    }
+
+    hideNotice(chatNotice);
+    messagesContainer.replaceChildren();
+
+    const sortedMessages = (data || []).slice().reverse();
+
+    if (sortedMessages.length === 0) {
+        clearMessages("هنوز پیامی در این اتاق وجود ندارد.");
+        return;
+    }
+
+    for (const message of sortedMessages) {
+        renderMessage(message);
+    }
+
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+}
+
+/* بارگذاری مجدد پیام‌ها هنگام بازگشت اتصال */
+async function refreshAfterReconnect() {
+    if (!username || !chatSection.classList.contains("visible")) {
+        return;
+    }
+
+    await loadMessages();
+}
+
+/* زمان‌بندی اتصال مجدد */
+function scheduleReconnect() {
+    if (!username) {
+        return;
+    }
+
+    if (reconnectTimer) {
+        clearTimeout(reconnectTimer);
+    }
+
+    reconnectAttempts++;
+
+    const delay = Math.min(
+        2000 * Math.pow(2, Math.min(reconnectAttempts - 1, 5)),
+        60000
+    );
+
+    setConnectionStatus(
+        "offline",
+        "تلاش مجدد برای اتصال..."
+    );
+
+    reconnectTimer = setTimeout(() => {
+        reconnectTimer = null;
+        subscribeToMessages();
+    }, delay);
+}
+
+/* قطع کانال قبلی */
+async function removeOldChannel() {
+    const oldChannel = realtimeChannel;
+    realtimeChannel = null;
+
+    if (oldChannel) {
+        try {
+            await supabaseClient.removeChannel(oldChannel);
+        } catch (error) {
+            console.error("خطا در بستن کانال قبلی:", error);
+        }
+    }
+}
+
+/* اتصال به Supabase Realtime */
+async function subscribeToMessages() {
+    if (!username) {
+        return;
+    }
+
+    if (realtimeChannel) {
+        return;
+    }
+
+    if (reconnectTimer) {
+        clearTimeout(reconnectTimer);
+        reconnectTimer = null;
+    }
+
+    setConnectionStatus("connecting", "در حال اتصال زنده...");
+
+    const channel = supabaseClient
+        .channel("gap-farsi-public-messages")
+        .on(
+            "postgres_changes",
+            {
+                event: "INSERT",
+                schema: "public",
+                table: "messages"
+            },
+            payload => {
+                console.log("Realtime event received:", payload);
+
+                if (payload && payload.new) {
+                    renderMessage(payload.new);
+                }
+            }
+        )
+        .subscribe(async status => {
+            console.log("Supabase Realtime status:", status);
+            lastRealtimeStatus = status;
+
+            if (status === "SUBSCRIBED") {
+                reconnectAttempts = 0;
+
+                setConnectionStatus(
+                    "online",
+                    "اتصال زنده برقرار است"
+                );
+
+                hideNotice(chatNotice);
+
+                // پیام‌هایی را که هنگام قطع اتصال رسیده‌اند دریافت کن.
+                await refreshAfterReconnect();
+
+            } else if (
+                status === "CHANNEL_ERROR" ||
+                status === "TIMED_OUT" ||
+                status === "CLOSED"
+            ) {
+                console.error("Realtime connection status:", status);
+
+                setConnectionStatus(
+                    "offline",
+                    "اتصال زنده برقرار نیست"
+                );
+
+                if (realtimeChannel === channel) {
+                    realtimeChannel = null;
+                }
+
+                scheduleReconnect();
+            } else {
+                setConnectionStatus(
+                    "connecting",
+                    "در حال اتصال زنده..."
+                );
+            }
+        });
+
+    realtimeChannel = channel;
+}
+
+/* ورود با نام مستعار */
+loginForm.addEventListener("submit", async event => {
+    event.preventDefault();
+
+    const enteredName = usernameInput.value.trim();
+
+    if (!enteredName) {
+        showNotice(
+            loginNotice,
+            "لطفاً یک نام مستعار وارد کن.",
+            "error"
+        );
+        return;
+    }
+
+    if (enteredName.length > 30) {
+        showNotice(
+            loginNotice,
+            "نام مستعار نباید بیشتر از ۳۰ نویسه باشد.",
+            "error"
+        );
+        return;
+    }
+
+    username = enteredName;
+
+    localStorage.setItem("gap_farsi_username", username);
+
+    document.getElementById("currentUsername").textContent = username;
+
+    loginSection.style.display = "none";
+    chatSection.classList.add("visible");
+
+    await loadMessages();
+    await subscribeToMessages();
+
+    showNotice(
+        chatNotice,
+        "وارد شدی. اکنون می‌توانی پیام بفرستی.",
+        "success"
+    );
+
+    setTimeout(() => hideNotice(chatNotice), 3000);
+});
+
+/* انتخاب اتاق */
+document.querySelectorAll(".room-button").forEach(button => {
+    button.addEventListener("click", async () => {
+        const room = button.dataset.room;
+
+        if (!ROOMS[room]) {
+            return;
+        }
+
+        currentRoom = room;
+
+        document.querySelectorAll(".room-button").forEach(item => {
+            item.classList.toggle("active", item === button);
+        });
+
+        document.getElementById("currentRoomTitle").textContent =
+            ROOMS[room].title;
+
+        document.getElementById("currentRoomIcon").textContent =
+            ROOMS[room].icon;
+
+        if (username) {
+            chatSection.classList.add("visible");
+            await loadMessages();
+        }
+    });
+});
+
+/* ارسال پیام */
+messageForm.addEventListener("submit", async event => {
+    event.preventDefault();
+
+    if (!username) {
+        showNotice(
+            chatNotice,
+            "ابتدا با نام مستعار وارد شو.",
+            "error"
+        );
+        return;
+    }
+
+    if (isSending) {
+        return;
+    }
+
+    const content = messageInput.value.trim();
+
+    if (!content) {
+        return;
+    }
+
+    if (content.length > 2000) {
+        showNotice(
+            chatNotice,
+            "پیام نباید بیشتر از ۲۰۰۰ نویسه باشد.",
+            "error"
+        );
+        return;
+    }
+
+    isSending = true;
+    sendButton.disabled = true;
+    sendButton.textContent = "در حال ارسال...";
+
+    hideNotice(chatNotice);
+
+    try {
+        const { data, error } = await supabaseClient
+            .from("messages")
+            .insert({
+                username: username,
+                room: currentRoom,
+                content: content
+            })
+            .select("id, username, room, content, created_at")
+            .single();
+
+        if (error) {
+            console.error("خطای ارسال پیام:", error);
+
+            showNotice(
+                chatNotice,
+                "پیام ارسال نشد: " + error.message,
+                "error"
+            );
+
+            return;
+        }
+
+        messageInput.value = "";
+
+        // نمایش فوری پیام؛ رویداد Realtime از تکرار آن جلوگیری می‌کند.
+        renderMessage(data);
+
+        messageInput.focus();
+
+    } catch (error) {
+        console.error("خطای غیرمنتظره هنگام ارسال:", error);
+
+        showNotice(
+            chatNotice,
+            "خطای ارتباط با سرور: " +
+                (error.message || "لطفاً دوباره تلاش کن."),
+            "error"
+        );
+
+    } finally {
+        isSending = false;
+        sendButton.disabled = false;
+        sendButton.textContent = "ارسال پیام ➤";
+    }
+});
+
+/* Enter برای ارسال و Shift + Enter برای خط جدید */
+messageInput.addEventListener("keydown", event => {
+    if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        messageForm.requestSubmit();
+    }
+});
+
+/* تلاش مجدد هنگام بازگشت اینترنت */
+window.addEventListener("online", async () => {
+    console.log("Browser network online");
+
+    if (username && !realtimeChannel) {
+        await subscribeToMessages();
+    }
+});
+
+window.addEventListener("offline", () => {
+    console.log("Browser network offline");
+
+    setConnectionStatus("offline", "اینترنت قطع است");
+});
+
+/* بررسی اتصال اولیه به پایگاه داده */
+async function checkDatabaseConnection() {
+    try {
+        const { error } = await supabaseClient
+            .from("messages")
+            .select("id")
+            .limit(1);
+
+        if (error) {
+            console.error("خطای اتصال به پایگاه داده:", error);
+
+            setConnectionStatus("offline", "خطای اتصال به پایگاه داده");
+
+            showNotice(
+                loginNotice,
+                "خطای اتصال به Supabase: " + error.message,
+                "error"
+            );
+
+            return false;
+        }
+
+        setConnectionStatus("online", "پایگاه داده در دسترس است");
+
+        return true;
+
+    } catch (error) {
+        console.error("Database connection error:", error);
+
+        setConnectionStatus("offline", "اتصال برقرار نیست");
+
+        showNotice(
+            loginNotice,
+            "خطای ارتباط با سرور. اینترنت را بررسی کن.",
+            "error"
+        );
+
+        return false;
+    }
+}
+
+/* آماده‌سازی صفحه */
+async function initializeApp() {
+    usernameInput.value = username;
+
+    await checkDatabaseConnection();
+
+    if (username) {
+        document.getElementById("currentUsername").textContent = username;
+
+        loginSection.style.display = "none";
+        chatSection.classList.add("visible");
+
+        await loadMessages();
+        await subscribeToMessages();
+
+    } else {
+        clearMessages("برای شروع گفت‌وگو، ابتدا وارد شو.");
+    }
+}
+
+/* شروع برنامه */
+initializeApp();
+
+</script>
+
+</body>
+</html>
