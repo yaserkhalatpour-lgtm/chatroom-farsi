@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#061329">
+  <meta name="theme-color" content="#061124">
   <title>گپ فارسی | چت‌روم آنلاین</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -21,26 +21,18 @@
       --muted: #8ba7cb;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
       font-family: Tahoma, Arial, sans-serif;
-      background:
-        radial-gradient(ellipse at top, #10294c 0%, var(--bg) 55%);
+      background: radial-gradient(ellipse at top, #10294c 0%, var(--bg) 55%);
       color: var(--text);
       min-height: 100vh;
     }
 
-    button, input {
-      font: inherit;
-    }
-
-    button {
-      cursor: pointer;
-    }
+    button, input { font: inherit; }
+    button { cursor: pointer; }
 
     .topbar {
       height: 78px;
@@ -59,7 +51,7 @@
       border: 0;
       color: var(--text);
       background: transparent;
-      font-size: 27px;
+      font-size: 25px;
       padding: 6px;
     }
 
@@ -85,23 +77,11 @@
       border-radius: 50%;
       background: #547cae;
       border: 2px solid #7298c9;
-      position: relative;
       display: grid;
       place-items: center;
       font-size: 24px;
       flex-shrink: 0;
-    }
-
-    .profile::after {
-      content: "";
-      width: 12px;
-      height: 12px;
-      background: var(--green);
-      border: 2px solid var(--bg);
-      border-radius: 50%;
-      position: absolute;
-      bottom: -1px;
-      right: -1px;
+      color: white;
     }
 
     .layout {
@@ -123,19 +103,17 @@
     }
 
     .panel-title {
-      padding: 20px 17px;
+      padding: 18px 15px;
       border-bottom: 1px solid var(--border);
       font-weight: bold;
-      font-size: 17px;
+      font-size: 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 8px;
     }
 
-    .room-list {
-      padding: 8px;
-    }
+    .room-list { padding: 8px; }
 
     .room {
       display: flex;
@@ -145,12 +123,9 @@
       border-bottom: 1px solid rgba(36, 67, 105, .55);
       border-radius: 12px;
       cursor: pointer;
-      transition: .2s;
     }
 
-    .room:hover {
-      background: #102746;
-    }
+    .room:hover { background: #102746; }
 
     .room.active {
       background: linear-gradient(110deg, #174b9c, #16396f);
@@ -168,7 +143,7 @@
     }
 
     .room-name {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: bold;
       line-height: 1.8;
     }
@@ -179,9 +154,7 @@
       margin-top: 2px;
     }
 
-    .online-dot {
-      color: var(--green);
-    }
+    .online-dot { color: var(--green); }
 
     .create-room {
       margin: 12px;
@@ -219,10 +192,7 @@
       flex-shrink: 0;
     }
 
-    .chat-room-name {
-      font-weight: bold;
-      font-size: 16px;
-    }
+    .chat-room-name { font-weight: bold; font-size: 16px; }
 
     .chat-status {
       color: var(--muted);
@@ -230,9 +200,7 @@
       margin-top: 7px;
     }
 
-    .chat-status span {
-      color: var(--green);
-    }
+    .chat-status span { color: var(--green); }
 
     .messages {
       flex: 1;
@@ -265,10 +233,7 @@
       font-size: 22px;
     }
 
-    .bubble-wrap {
-      flex: 1;
-      min-width: 0;
-    }
+    .bubble-wrap { flex: 1; min-width: 0; }
 
     .bubble {
       display: inline-block;
@@ -320,9 +285,7 @@
       outline: none;
     }
 
-    .composer input:focus {
-      border-color: var(--blue);
-    }
+    .composer input:focus { border-color: var(--blue); }
 
     .send-btn {
       width: 48px;
@@ -334,10 +297,7 @@
       font-size: 22px;
     }
 
-    .send-btn:disabled {
-      opacity: .5;
-      cursor: not-allowed;
-    }
+    .send-btn:disabled { opacity: .5; cursor: not-allowed; }
 
     .online-count {
       background: #163d71;
@@ -347,9 +307,7 @@
       font-size: 12px;
     }
 
-    .users-list {
-      padding: 8px 12px;
-    }
+    .users-list { padding: 8px 12px; }
 
     .user-row {
       display: flex;
@@ -376,12 +334,19 @@
       min-width: 0;
       overflow-wrap: anywhere;
       font-size: 13px;
+      color: #9ac9ff;
+      cursor: pointer;
+      background: transparent;
+      border: 0;
+      text-align: right;
     }
 
-    .user-state {
-      color: var(--green);
-      font-size: 11px;
+    .user-name:hover {
+      color: var(--cyan);
+      text-decoration: underline;
     }
+
+    .user-state { color: var(--green); font-size: 11px; }
 
     .users-footer {
       display: block;
@@ -425,9 +390,7 @@
       padding: 24px;
     }
 
-    .modal h2 {
-      margin-top: 0;
-    }
+    .modal h2 { margin-top: 0; }
 
     .modal input {
       width: 100%;
@@ -465,14 +428,18 @@
       color: var(--muted);
     }
 
-    @media (max-width: 1000px) {
-      .layout {
-        grid-template-columns: 240px minmax(0, 1fr);
-      }
+    .private-back {
+      color: #a7ccff;
+      border: 1px solid #2a4e7c;
+      background: #102746;
+      border-radius: 10px;
+      padding: 7px 10px;
+      font-size: 12px;
+    }
 
-      .users-panel {
-        display: none;
-      }
+    @media (max-width: 1000px) {
+      .layout { grid-template-columns: 240px minmax(0, 1fr); }
+      .users-panel { display: none; }
     }
 
     @media (max-width: 650px) {
@@ -482,14 +449,8 @@
         gap: 10px;
       }
 
-      .search input {
-        padding: 11px 13px;
-      }
-
-      .profile {
-        width: 42px;
-        height: 42px;
-      }
+      .search input { padding: 11px 13px; }
+      .profile { width: 42px; height: 42px; }
 
       .layout {
         display: block;
@@ -497,9 +458,7 @@
         padding: 0 7px;
       }
 
-      .rooms-panel {
-        margin-bottom: 10px;
-      }
+      .rooms-panel { margin-bottom: 10px; }
 
       .room-list {
         display: flex;
@@ -520,22 +479,11 @@
         font-size: 20px;
       }
 
-      .room-name {
-        font-size: 12px;
-      }
+      .room-name { font-size: 12px; }
+      .create-room { display: none; }
+      .panel-title { padding: 12px; font-size: 14px; }
 
-      .create-room {
-        display: none;
-      }
-
-      .panel-title {
-        padding: 12px;
-        font-size: 14px;
-      }
-
-      .chat {
-        min-height: calc(100dvh - 170px);
-      }
+      .chat { min-height: calc(100dvh - 170px); }
 
       .messages {
         min-height: 45vh;
@@ -543,27 +491,11 @@
         padding: 12px 8px;
       }
 
-      .avatar {
-        width: 39px;
-        height: 39px;
-      }
-
-      .bubble {
-        font-size: 13px;
-      }
-
-      .chat-header {
-        padding: 11px;
-      }
-
-      .composer {
-        padding: 8px;
-      }
-
-      .connection {
-        bottom: 5px;
-        left: 5px;
-      }
+      .avatar { width: 39px; height: 39px; }
+      .bubble { font-size: 13px; }
+      .chat-header { padding: 11px; }
+      .composer { padding: 8px; }
+      .connection { bottom: 5px; left: 5px; }
     }
   </style>
 </head>
@@ -583,53 +515,38 @@
 
   <main class="layout">
     <aside class="panel rooms-panel" id="roomsPanel">
-      <div class="panel-title">
-        <span>💬 اتاق‌های گفت‌وگو</span>
-      </div>
-
+      <div class="panel-title">💬 اتاق‌های گفت‌وگو</div>
       <div class="room-list" id="roomList"></div>
-
-      <button class="create-room" id="createRoomButton">
-        ＋ ساخت اتاق جدید
-      </button>
+      <button class="create-room" id="createRoomButton">＋ ساخت اتاق جدید</button>
     </aside>
 
     <section class="panel chat">
       <div class="chat-header">
         <div class="chat-room-icon" id="activeRoomIcon">⌂</div>
 
-        <div style="flex:1; min-width:0">
+        <div style="flex:1;min-width:0">
           <div class="chat-room-name" id="activeRoomName">اتاق اصلی (عمومی)</div>
           <div class="chat-status" id="activeRoomStatus">
             <span>●</span> آماده اتصال
           </div>
         </div>
 
+        <button class="private-back" id="backToRoom" style="display:none">
+          بازگشت به اتاق
+        </button>
         <button class="icon-btn" id="chatOptions" aria-label="گزینه‌ها">⋮</button>
       </div>
 
       <div class="messages" id="messages">
-        <div class="empty">
-          به گپ فارسی خوش آمدید!<br>
-          برای شروع گفت‌وگو، پیام خود را بنویسید.
-        </div>
+        <div class="empty">به گپ فارسی خوش آمدید!<br>برای شروع گفت‌وگو، پیام خود را بنویسید.</div>
       </div>
 
       <form class="composer" id="messageForm">
         <button type="button" class="icon-btn" id="emojiButton" title="شکلک">☻</button>
-
-        <input
-          id="messageInput"
-          type="text"
-          maxlength="1500"
-          autocomplete="off"
-          placeholder="پیام خود را بنویسید..."
-          aria-label="متن پیام"
-        >
-
-        <button class="send-btn" id="sendButton" type="submit" aria-label="ارسال پیام">
-          ➤
-        </button>
+        <input id="messageInput" type="text" maxlength="1500"
+               autocomplete="off" placeholder="پیام خود را بنویسید..."
+               aria-label="متن پیام">
+        <button class="send-btn" id="sendButton" type="submit" aria-label="ارسال پیام">➤</button>
       </form>
     </section>
 
@@ -643,9 +560,7 @@
         <div class="empty">برای مشاهده کاربران آنلاین، نامی انتخاب کنید.</div>
       </div>
 
-      <button class="users-footer" id="showAllUsers">
-        مشاهده همه کاربران 👥
-      </button>
+      <button class="users-footer" id="showAllUsers">مشاهده همه کاربران 👥</button>
     </aside>
   </main>
 
@@ -654,18 +569,12 @@
   <div class="modal-backdrop" id="modalBackdrop">
     <div class="modal" role="dialog" aria-modal="true">
       <h2 id="modalTitle">ورود به گپ فارسی</h2>
-
       <p class="modal-note" id="modalDescription">
         یک نام نمایشی انتخاب کنید تا وارد گفت‌وگو شوید.
       </p>
 
       <input id="nicknameInput" type="text" maxlength="24"
              autocomplete="nickname" placeholder="نام نمایشی">
-
-      <div id="passwordArea" style="display:none">
-        <input id="passwordInput" type="password"
-               autocomplete="new-password" placeholder="رمز عبور">
-      </div>
 
       <button class="primary" id="modalSubmit">ورود به گفت‌وگو</button>
       <button class="secondary" id="guestButton">ورود مهمان</button>
@@ -676,14 +585,13 @@
   </div>
 
   <script>
-    /*
-      تنظیمات اتصال Supabase:
-      مقادیر زیر مربوط به پروژه قبلی هستند.
-      کلید publishable برای کد سمت مرورگر است؛
-      هرگز service_role key را در این فایل قرار ندهید.
-    */
     const SUPABASE_URL = "https://fhorywjfivaemathejeq.supabase.co";
     const SUPABASE_KEY = "sb_publishable_wIM3lIEigV7J7D06-YsXAA_jM6sBknY";
+
+    /*
+      برای پیام خصوصی، جدول direct_messages باید در Supabase ساخته شود.
+      کد SQL لازم پس از این فایل آمده است.
+    */
 
     const ROOMS = [
       { id: "general", name: "اتاق اصلی (عمومی)", icon: "⌂", dbName: "عمومی" },
@@ -703,13 +611,16 @@
     let supabaseClient = null;
     let activeRoom = ROOMS[0];
     let currentUser = localStorage.getItem("gap_username") || "";
-    let guestMode = localStorage.getItem("gap_guest") === "true";
     let messageChannel = null;
     let presenceChannel = null;
+    let privateChannel = null;
     let onlineUsers = {};
     let loadedMessageIds = new Set();
-    let connected = false;
     let reconnectTimer = null;
+
+    let privateChat = false;
+    let privateTarget = "";
+    let privateConversationId = "";
 
     function escapeHTML(value) {
       return String(value ?? "").replace(/[&<>"']/g, char => ({
@@ -744,7 +655,7 @@
       $("roomList").innerHTML = ROOMS
         .filter(room => room.name.toLowerCase().includes(query))
         .map(room => `
-          <div class="room ${room.id === activeRoom.id ? "active" : ""}"
+          <div class="room ${room.id === activeRoom.id && !privateChat ? "active" : ""}"
                data-room="${escapeHTML(room.id)}">
             <div class="room-icon">${room.icon}</div>
             <div>
@@ -767,20 +678,28 @@
     }
 
     function switchRoom(room) {
+      privateChat = false;
+      privateTarget = "";
+      privateConversationId = "";
+
+      if (privateChannel && supabaseClient) {
+        supabaseClient.removeChannel(privateChannel);
+        privateChannel = null;
+      }
+
       activeRoom = room;
       loadedMessageIds.clear();
-      onlineUsers = {};
 
+      $("backToRoom").style.display = "none";
       $("activeRoomName").textContent = room.name;
       $("activeRoomIcon").textContent = room.icon;
-      $("messages").innerHTML = '<div class="empty">در حال دریافت پیام‌ها...</div>';
+      $("messageInput").placeholder = "پیام خود را بنویسید...";
+      $("activeRoomStatus").innerHTML = '<span>●</span> در حال اتصال';
 
       renderRooms($("roomSearch").value);
       updateOnlineUI();
 
-      if (supabaseClient) {
-        connectRoom();
-      }
+      if (supabaseClient) connectRoom();
     }
 
     function avatarFor(name) {
@@ -793,7 +712,6 @@
     function renderMessage(message) {
       const messageId = String(message.id ?? "");
       if (messageId && loadedMessageIds.has(messageId)) return;
-
       if (messageId) loadedMessageIds.add(messageId);
 
       const empty = $("messages").querySelector(".empty");
@@ -869,6 +787,144 @@
       }
     }
 
+    function makeConversationId(nameA, nameB) {
+      return [nameA.trim().toLowerCase(), nameB.trim().toLowerCase()]
+        .sort()
+        .join("__");
+    }
+
+    /*
+      کلیک روی نام کاربر، صفحه گفت‌وگوی دونفره را باز می‌کند.
+      این بخش از جدول direct_messages استفاده می‌کند.
+    */
+    async function openPrivateChat(username) {
+      if (!currentUser) {
+        openLoginModal();
+        $("modalMessage").textContent = "برای گفت‌وگوی خصوصی ابتدا نام نمایشی انتخاب کنید.";
+        return;
+      }
+
+      if (username === currentUser) {
+        alert("نمی‌توانید با خودتان گفت‌وگو کنید.");
+        return;
+      }
+
+      privateChat = true;
+      privateTarget = username;
+      privateConversationId = makeConversationId(currentUser, username);
+      loadedMessageIds.clear();
+
+      if (messageChannel && supabaseClient) {
+        await supabaseClient.removeChannel(messageChannel);
+        messageChannel = null;
+      }
+
+      if (privateChannel && supabaseClient) {
+        await supabaseClient.removeChannel(privateChannel);
+        privateChannel = null;
+      }
+
+      $("backToRoom").style.display = "inline-block";
+      $("activeRoomName").textContent = username;
+      $("activeRoomIcon").textContent = "♙";
+      $("activeRoomStatus").textContent = "گفت‌وگوی خصوصی";
+      $("messageInput").placeholder = "پیام خصوصی برای " + username + "...";
+      $("messages").innerHTML = '<div class="empty">در حال بارگذاری گفت‌وگوی خصوصی...</div>';
+
+      await loadPrivateMessages();
+    }
+
+    async function loadPrivateMessages() {
+      if (!supabaseClient || !privateConversationId) return;
+
+      try {
+        const { data, error } = await supabaseClient
+          .from("direct_messages")
+          .select("id, conversation_id, sender, recipient, content, created_at")
+          .eq("conversation_id", privateConversationId)
+          .order("created_at", { ascending: true })
+          .limit(200);
+
+        if (error) throw error;
+
+        $("messages").innerHTML = "";
+        loadedMessageIds.clear();
+
+        if (!data || data.length === 0) {
+          $("messages").innerHTML =
+            '<div class="empty">هنوز پیامی بین شما ردوبدل نشده است.<br>سلام کنید! 👋</div>';
+        } else {
+          data.forEach(message => {
+            renderMessage({
+              id: message.id,
+              username: message.sender,
+              content: message.content,
+              created_at: message.created_at
+            });
+          });
+        }
+
+        privateChannel = supabaseClient
+          .channel("private-chat-" + privateConversationId)
+          .on("postgres_changes", {
+            event: "INSERT",
+            schema: "public",
+            table: "direct_messages",
+            filter: "conversation_id=eq." + privateConversationId
+          }, payload => {
+            const message = payload.new;
+
+            if (
+              message.sender === currentUser ||
+              message.recipient === currentUser
+            ) {
+              renderMessage({
+                id: message.id,
+                username: message.sender,
+                content: message.content,
+                created_at: message.created_at
+              });
+            }
+          })
+          .subscribe(status => {
+            if (status === "SUBSCRIBED") {
+              setConnection("گفت‌وگوی خصوصی متصل است", true);
+            } else if (status === "CHANNEL_ERROR") {
+              setConnection("خطا در اتصال گفت‌وگوی خصوصی");
+            }
+          });
+
+      } catch (error) {
+        console.error("Private messages:", error);
+        $("messages").innerHTML =
+          '<div class="empty">جدول پیام خصوصی هنوز تنظیم نشده است.<br>دستور SQL پایین کد را در Supabase اجرا کنید.</div>';
+      }
+    }
+
+    async function sendPrivateMessage(content) {
+      if (!supabaseClient || !privateConversationId) {
+        alert("اتصال به گفت‌وگوی خصوصی برقرار نیست.");
+        return;
+      }
+
+      const { error } = await supabaseClient
+        .from("direct_messages")
+        .insert({
+          conversation_id: privateConversationId,
+          sender: currentUser,
+          recipient: privateTarget,
+          content
+        });
+
+      if (error) {
+        console.error(error);
+        alert("پیام خصوصی ارسال نشد. تنظیمات جدول direct_messages را بررسی کنید.");
+        return;
+      }
+
+      $("messageInput").value = "";
+    }
+
     function presenceKey() {
       return "gap-tab-" + Math.random().toString(36).slice(2);
     }
@@ -908,11 +964,19 @@
       $("usersList").innerHTML = list.map(user => `
         <div class="user-row">
           <div class="user-avatar">♙</div>
-          <div class="user-name">${escapeHTML(user.username)}</div>
+          <button class="user-name" data-user="${escapeHTML(user.username)}">
+            ${escapeHTML(user.username)}
+          </button>
           <span class="user-state">●</span>
           <span>🇮🇷</span>
         </div>
       `).join("");
+
+      document.querySelectorAll(".user-name").forEach(button => {
+        button.addEventListener("click", () => {
+          openPrivateChat(button.dataset.user);
+        });
+      });
     }
 
     function connectPresence() {
@@ -964,7 +1028,6 @@
         presenceChannel = null;
       }
 
-      connected = false;
       setConnection("در حال اتصال...");
 
       await loadMessages();
@@ -977,18 +1040,17 @@
           table: "messages",
           filter: "room=eq." + activeRoom.dbName
         }, payload => {
-          renderMessage(payload.new);
+          if (!privateChat) renderMessage(payload.new);
         })
         .subscribe(status => {
           if (status === "SUBSCRIBED") {
-            connected = true;
             $("activeRoomStatus").innerHTML = '<span>●</span> اتصال زنده برقرار است';
             setConnection("متصل به گفت‌وگو", true);
-          } else if (status === "CHANNEL_ERROR" ||
-                     status === "TIMED_OUT" ||
-                     status === "CLOSED") {
-            connected = false;
-            $("activeRoomStatus").textContent = "اتصال قطع شده است";
+          } else if (
+            status === "CHANNEL_ERROR" ||
+            status === "TIMED_OUT" ||
+            status === "CLOSED"
+          ) {
             setConnection("اتصال برقرار نیست");
             scheduleReconnect();
           }
@@ -1002,7 +1064,7 @@
 
       reconnectTimer = setTimeout(() => {
         reconnectTimer = null;
-        if (supabaseClient) connectRoom();
+        if (supabaseClient && !privateChat) connectRoom();
       }, 5000);
     }
 
@@ -1011,37 +1073,34 @@
 
       const input = $("messageInput");
       const content = input.value.trim();
-
       if (!content) return;
 
       if (!currentUser) {
         openLoginModal();
-        $("modalMessage").textContent = "برای ارسال پیام، ابتدا نام نمایشی انتخاب کنید.";
-        return;
-      }
-
-      if (!supabaseClient) {
-        alert("اتصال به سرور برقرار نیست.");
+        $("modalMessage").textContent = "برای ارسال پیام ابتدا نام نمایشی انتخاب کنید.";
         return;
       }
 
       $("sendButton").disabled = true;
 
       try {
-        const { error } = await supabaseClient
-          .from("messages")
-          .insert({
-            username: currentUser,
-            room: activeRoom.dbName,
-            content
-          });
+        if (privateChat) {
+          await sendPrivateMessage(content);
+        } else {
+          const { error } = await supabaseClient
+            .from("messages")
+            .insert({
+              username: currentUser,
+              room: activeRoom.dbName,
+              content
+            });
 
-        if (error) throw error;
-
-        input.value = "";
+          if (error) throw error;
+          input.value = "";
+        }
       } catch (error) {
         console.error("Send message:", error);
-        alert("پیام ارسال نشد. اتصال و دسترسی جدول messages را بررسی کنید.");
+        alert("پیام ارسال نشد. اتصال و تنظیمات پایگاه داده را بررسی کنید.");
       } finally {
         $("sendButton").disabled = false;
         input.focus();
@@ -1051,12 +1110,10 @@
     function openLoginModal() {
       $("modalBackdrop").style.display = "flex";
       $("nicknameInput").value = currentUser;
-      $("passwordArea").style.display = "none";
       $("modalTitle").textContent = "ورود به گپ فارسی";
       $("modalDescription").textContent =
-        "یک نام نمایشی انتخاب کنید. برای ورود مهمان، نیازی به ایمیل نیست.";
+        "یک نام نمایشی انتخاب کنید. برای ورود مهمان، ایمیل لازم نیست.";
       $("modalMessage").textContent = "";
-      $("modalSubmit").textContent = "ورود به گفت‌وگو";
     }
 
     function closeModal() {
@@ -1072,21 +1129,16 @@
       }
 
       currentUser = nickname.slice(0, 24);
-      guestMode = true;
-
       localStorage.setItem("gap_username", currentUser);
-      localStorage.setItem("gap_guest", "true");
 
       closeModal();
 
-      if (supabaseClient) connectRoom();
-    }
-
-    function showAllUsers() {
-      if (window.innerWidth <= 1000) {
-        alert("برای دیدن فهرست کاربران آنلاین، سایت را در صفحه بزرگ‌تر باز کنید.");
-      } else {
-        alert("فهرست بالا کاربران آنلاین اتاق فعلی را نمایش می‌دهد.");
+      if (supabaseClient) {
+        if (privateChat) {
+          loadPrivateMessages();
+        } else {
+          connectRoom();
+        }
       }
     }
 
@@ -1101,7 +1153,10 @@
       $("modalClose").addEventListener("click", closeModal);
       $("modalSubmit").addEventListener("click", enterAsGuest);
       $("guestButton").addEventListener("click", enterAsGuest);
-      $("showAllUsers").addEventListener("click", showAllUsers);
+
+      $("backToRoom").addEventListener("click", () => {
+        switchRoom(activeRoom);
+      });
 
       $("emojiButton").addEventListener("click", () => {
         $("messageInput").value += " 😊";
@@ -1113,11 +1168,11 @@
       });
 
       $("inboxButton").addEventListener("click", () => {
-        alert("قابلیت پیام خصوصی هنوز فعال نشده است.");
+        alert("برای شروع گفت‌وگوی خصوصی روی نام یکی از کاربران آنلاین بزنید.");
       });
 
       $("notificationButton").addEventListener("click", () => {
-        alert("وقتی پیام جدیدی در اتاق دریافت شود، در همین صفحه نمایش داده می‌شود.");
+        alert("پیام‌های جدید در همین صفحه نمایش داده می‌شوند.");
       });
 
       $("createRoomButton").addEventListener("click", () => {
@@ -1128,6 +1183,10 @@
         if (confirm("می‌خواهید نام نمایشی خود را تغییر دهید؟")) {
           openLoginModal();
         }
+      });
+
+      $("showAllUsers").addEventListener("click", () => {
+        alert("فهرست کاربران آنلاین اتاق فعلی در ستون کناری نمایش داده می‌شود.");
       });
 
       $("modalBackdrop").addEventListener("click", event => {
@@ -1143,9 +1202,7 @@
       renderRooms();
       setupEvents();
 
-      if (currentUser) {
-        $("nicknameInput").value = currentUser;
-      } else {
+      if (!currentUser) {
         setTimeout(openLoginModal, 400);
       }
 
@@ -1158,11 +1215,7 @@
         supabaseClient = window.supabase.createClient(
           SUPABASE_URL,
           SUPABASE_KEY,
-          {
-            realtime: {
-              params: { eventsPerSecond: 10 }
-            }
-          }
+          { realtime: { params: { eventsPerSecond: 10 } } }
         );
 
         await connectRoom();
