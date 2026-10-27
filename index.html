@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101827">
+<title>گپ فارسی | چت‌روم آنلاین</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Tahoma,Arial,sans-serif;
+  background:#0b1120;
+  color:#f1f5f9;
+}
+header{
+  background:#111c30;
+  padding:18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:1px solid #26334a;
+}
+.logo{font-size:23px;font-weight:bold;color:#60a5fa}
+.online{font-size:12px;color:#4ade80}
+.container{max-width:1000px;margin:auto;padding:15px}
+.card{
+  background:#111c30;
+  border:1px solid #26334a;
+  border-radius:15px;
+  padding:16px;
+  margin-bottom:15px;
+}
+h3{margin-top:0;color:#93c5fd}
+input,button{
+  font-family:inherit;
+  border-radius:9px;
+  padding:12px;
+  font-size:14px;
+}
+input{
+  background:#0b1120;
+  color:white;
+  border:1px solid #34445f;
+  min-width:0;
+}
+button{
+  border:0;
+  background:#2563eb;
+  color:white;
+  cursor:pointer;
+}
+button:hover{background:#1d4ed8}
+.rooms{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+.room{
+  background:#1b2940;
+  padding:13px;
+  border-radius:10px;
+  cursor:pointer;
+  border:1px solid transparent;
+}
+.room.active{border-color:#60a5fa}
+.room small{display:block;color:#94a3b8;margin-top:7px}
+#chatbox{
+  height:300px;
+  overflow-y:auto;
+  background:#0b1120;
+  border-radius:10px;
+  padding:12px;
+  margin-bottom:12px;
+}
+.msg{
+  background:#1b2940;
+  padding:10px;
+  border-radius:10px;
+  margin-bottom:10px;
+  overflow-wrap:anywhere;
+}
+.msg b{color:#93c5fd}
+.msg small{color:#94a3b8;font-size:10px}
+.send{
+  display:flex;
+  gap:8px;
+}
+.send input{flex:1;width:50%}
+.muted{color:#94a3b8;font-size:12px;line-height:2}
+footer{text-align:center;padding:22px;color:#94a3b8;font-size:12px}
+.hidden{display:none}
+@media(min-width:700px){
+ .layout{display:grid;grid-template-columns:0.8fr 1.5fr;gap:15px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">💬 گپ فارسی</div>
+  <div class="online">● نسخه آزمایشی</div>
+</header>
+
+<div class="container">
+
+  <section class="card" id="welcome">
+    <h3>به جمع دوستان خوش آمدی!</h3>
+    <p class="muted">نام مستعارت را انتخاب کن و وارد اتاق گفت‌وگو شو.</p>
+    <div class="send">
+      <input id="username" maxlength="25"
+             placeholder="نام مستعار شما">
+      <button onclick="enterChat()">ورود</button>
+    </div>
+    <p id="error" class="muted"></p>
+  </section>
+
+  <div id="main" class="hidden">
+
+    <section class="card">
+      <div style="display:flex;justify-content:space-between;gap:10px">
+        <div>
+          <strong id="hello"></strong>
+          <p class="muted">به گپ فارسی خوش آمدی.</p>
+        </div>
+        <button onclick="changeUser()">تغییر نام</button>
+      </div>
+    </section>
+
+    <div class="layout">
+
+      <aside>
+        <section class="card">
+          <h3>اتاق‌های گفت‌وگو</h3>
+          <div class="rooms">
+            <div class="room active" onclick="selectRoom('عمومی',this)">
+              💬 عمومی
+              <small>گفت‌وگوی آزاد</small>
+            </div>
+            <div class="room" onclick="selectRoom('دوستانه',this)">
+              🤝 دوستانه
+              <small>آشنایی و گپ</small>
+            </div>
+            <div class="room" onclick="selectRoom('علمی',this)">
+              📚 علمی
+              <small>بحث‌های علمی</small>
+            </div>
+            <div class="room" onclick="selectRoom('سرگرمی',this)">
+              🎮 سرگرمی
+              <small>گفت‌وگوی تفریحی</small>
+            </div>
+          </div>
+        </section>
+
+        <section class="card">
+          <h3>👥 کاربران</h3>
+          <p class="muted">
+            در نسخه آزمایشی، فهرست کاربران آنلاین واقعی نیست.
+          </p>
+        </section>
+      </aside>
+
+      <main>
+        <section class="card">
+          <h3 id="roomtitle">اتاق عمومی</h3>
+          <div id="chatbox" aria-live="polite">
+            <p class="muted">
+              به اتاق خوش آمدی! می‌توانی پیام آزمایشی ارسال کنی.
+            </p>
+          </div>
+
+          <form class="send" id="sendform">
+            <input id="message" maxlength="1000"
+                   placeholder="پیامت را بنویس..."
+                   autocomplete="off">
+            <button type="submit">ارسال</button>
+          </form>
+
+          <p class="muted">
+            این نسخه آزمایشی است؛ پیام‌ها فقط در همین مرورگر ذخیره می‌شوند.
+          </p>
+        </section>
+      </main>
+
+    </div>
+  </div>
+</div>
+
+<footer>
+  گپ فارسی | محیط گفت‌وگوی دوستانه
+</footer>
+
+<script>
+let username = "";
+let currentRoom = "عمومی";
+
+function enterChat(){
+  const input = document.getElementById("username");
+  const name = input.value.trim();
+
+  if(!name){
+    document.getElementById("error").textContent =
+      "لطفاً ابتدا یک نام مستعار وارد کن.";
+    return;
+  }
+
+  username = name;
+  document.getElementById("welcome").classList.add("hidden");
+  document.getElementById("main").classList.remove("hidden");
+  document.getElementById("hello").textContent =
+    "سلام " + username + " 👋";
+
+  showMessages();
+}
+
+function changeUser(){
+  document.getElementById("main").classList.add("hidden");
+  document.getElementById("welcome").classList.remove("hidden");
+  document.getElementById("username").value = username;
+}
+
+function selectRoom(room, element){
+  currentRoom = room;
+  document.getElementById("roomtitle").textContent =
+    "اتاق " + room;
+
+  document.querySelectorAll(".room").forEach(el =>
+    el.classList.remove("active")
+  );
+
+  element.classList.add("active");
+  showMessages();
+}
+
+function getMessages(){
+  try{
+    return JSON.parse(
+      localStorage.getItem("gap_messages_v1") || "{}"
+    );
+  }catch(e){
+    return {};
+  }
+}
+
+function showMessages(){
+  const all = getMessages();
+  const messages = all[currentRoom] || [];
+  const box = document.getElementById("chatbox");
+
+  box.replaceChildren();
+
+  if(messages.length === 0){
+    const p = document.createElement("p");
+    p.className = "muted";
+    p.textContent = "هنوز پیامی در این اتاق نیست.";
+    box.appendChild(p);
+    return;
+  }
+
+  messages.forEach(item => {
+    const div = document.createElement("div");
+    div.className = "msg";
+
+    const name = document.createElement("b");
+    name.textContent = item.user + " ";
+
+    const time = document.createElement("small");
+    time.textContent = item.time;
+
+    const text = document.createElement("div");
+    text.style.marginTop = "7px";
+    text.textContent = item.text;
+
+    div.append(name,time,text);
+    box.appendChild(div);
+  });
+
+  box.scrollTop = box.scrollHeight;
+}
+
+document.getElementById("sendform").addEventListener(
+  "submit", function(event){
+    event.preventDefault();
+
+    const input = document.getElementById("message");
+    const text = input.value.trim();
+
+    if(!text || !username) return;
+
+    const all = getMessages();
+
+    if(!all[currentRoom]) all[currentRoom] = [];
+
+    all[currentRoom].push({
+      user: username,
+      text: text,
+      time: new Date().toLocaleTimeString("fa-IR",{
+        hour:"2-digit",minute:"2-digit"
+      })
+    });
+
+    try{
+      localStorage.setItem("gap_messages_v1",JSON.stringify(all));
+    }catch(e){
+      alert("فضای ذخیره‌سازی مرورگر در دسترس نیست.");
+      return;
+    }
+
+    input.value = "";
+    showMessages();
+  }
+);
+</script>
+
+</body>
+</html>
